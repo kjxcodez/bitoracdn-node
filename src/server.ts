@@ -4,11 +4,12 @@ import helmet from "helmet";
 import compression from "compression";
 import morgan from "morgan";
 import dotenv from "dotenv";
+import { config } from "@/app/config/env.config";
 
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = config.PORT;
 
 app.use(helmet());
 app.use(compression());
