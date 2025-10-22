@@ -21,23 +21,10 @@ app.use(express.json());
 app.use(morgan("dev"));
 app.use(responseTimeMiddleware);
 
-const redis = await createRedisClient();
+await createRedisClient();
 
 app.use("/content", cacheValidationMiddleware, contentRouter);
 
-
-app.get("/health", async (_req, res) => {
-  try {
-    const pong = await redis.ping();
-    res.json({
-      status: "ok",
-      redis: pong,
-      uptime: process.uptime(),
-    });
-  } catch (err) {
-    res.status(500).json({ status: "error", message: String(err) });
-  }
-});
 app.use(loggerMiddleware);
 
 app.listen(PORT, () => {
