@@ -1,4 +1,3 @@
-// src/server.ts
 import express from "express";
 import helmet from "helmet";
 import compression from "compression";
@@ -6,8 +5,6 @@ import morgan from "morgan";
 import dotenv from "dotenv";
 import { config } from "@/app/config/env.config.js";
 import { createClient } from "@/app/services/redis-client.js";
-
-
 
 dotenv.config();
 
