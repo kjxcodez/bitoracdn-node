@@ -7,6 +7,8 @@ import { config } from "./app/config/env.config.js";
 import { createRedisClient } from "./app/services/redis-client.js";
 import { loggerMiddleware } from "./app/middlewares/logger.middleware.js";
 import { responseTimeMiddleware } from "./app/middlewares/response-time.middleware.js";
+import { cacheValidationMiddleware } from "./app/middlewares/cache-validation.middleware.js";
+import { contentRouter } from "./app/routes/content.route.js";
 
 dotenv.config();
 
@@ -20,6 +22,9 @@ app.use(morgan("dev"));
 app.use(responseTimeMiddleware);
 
 const redis = await createRedisClient();
+
+app.use("/content", cacheValidationMiddleware, contentRouter);
+
 
 app.get("/health", async (_req, res) => {
   try {
