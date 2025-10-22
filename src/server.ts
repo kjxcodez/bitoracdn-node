@@ -4,7 +4,7 @@ import compression from "compression";
 import morgan from "morgan";
 import dotenv from "dotenv";
 import { config } from "@/app/config/env.config.js";
-import { createClient } from "@/app/services/redis-client.js";
+import { createRedisClient } from "@/app/services/redis-client.js";
 
 dotenv.config();
 
@@ -16,9 +16,8 @@ app.use(compression());
 app.use(express.json());
 app.use(morgan("dev"));
 
-const redis = await createClient();
+const redis = await createRedisClient();
 
-// Health check route
 app.get("/health", async (_req, res) => {
   try {
     const pong = await redis.ping();
