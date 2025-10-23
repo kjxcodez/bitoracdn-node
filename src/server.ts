@@ -10,6 +10,7 @@ import { responseTimeMiddleware } from "./app/middlewares/response-time.middlewa
 import { cacheValidationMiddleware } from "./app/middlewares/cache-validation.middleware.js";
 import { contentRouter } from "./app/routes/content.route.js";
 import { cacheRouter } from "./app/routes/cache.route.js";
+import { uploadRouter } from "./app/routes/upload.route.js";
 
 dotenv.config();
 
@@ -26,9 +27,11 @@ await createRedisClient();
 
 app.use("/content", cacheValidationMiddleware, contentRouter);
 app.use("/cache", cacheRouter);
+app.use("/upload", uploadRouter);
 
 app.use(loggerMiddleware);
 
 app.listen(PORT, () => {
   console.log(`🚀 bitoracdn-node running on port ${PORT}`);
 });
+

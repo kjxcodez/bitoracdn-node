@@ -19,6 +19,10 @@ const envSchema = z.object({
   SUPABASE_BUCKET: z.string(),
   SUPABASE_PUBLIC_URL: z.string().url(),
 
+  SUPABASE_URL: z.string().url(),
+  SUPABASE_ANON_KEY: z.string(),
+  SUPABASE_ROLE_KEY: z.string(),
+
   // Optional defaults
   CACHE_DEFAULT_TTL: z.string().default("300"),
 });
@@ -47,5 +51,8 @@ export const config = {
   SUPABASE: {
     bucket: env.SUPABASE_BUCKET,
     publicUrl: env.SUPABASE_PUBLIC_URL,
+    url: env.SUPABASE_URL,
+    roleKey: env.SUPABASE_ROLE_KEY,
+    anonKey: env.SUPABASE_ANON_KEY
   },
 } as const;
