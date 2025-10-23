@@ -1,6 +1,7 @@
 import { Router, Request, Response } from "express";
 import { fetchFromSupabase } from "@/app/services/supabase.service.js";
 import { setCache } from "@/app/services/cache.service.js";
+import { getTTLForPath } from "@/utils/cache.utils.js";
 
 export const contentRouter = Router();
 
@@ -22,7 +23,7 @@ contentRouter.get("/{*path}", async (req: Request, res: Response) => {
         const buffer = Buffer.from(await originRes.arrayBuffer());
 
         // 3️⃣ Cache file in Redis
-        await setCache(path, buffer, 300); // cache for 5 minutes
+        await setCache(path, buffer, getTTLForPath(path)); // cache for 5 minutes
         res.setHeader("X-Cache-Status", "MISS");
 
         // 4️⃣ Set response headers
