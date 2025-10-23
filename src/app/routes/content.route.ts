@@ -10,7 +10,9 @@ export const contentRouter = Router();
  */
 contentRouter.get("/{*path}", async (req: Request, res: Response) => {
     try {
-        const path = req.params.path; 
+        const pathParam = req.params.path;
+        const path = Array.isArray(pathParam) ? pathParam.join("/") : pathParam;
+        console.log(path)
         if (!path) return res.status(400).json({ error: "Missing content path" });
 
         // 1️⃣ Fetch file from Supabase origin
@@ -20,7 +22,7 @@ contentRouter.get("/{*path}", async (req: Request, res: Response) => {
         const buffer = Buffer.from(await originRes.arrayBuffer());
 
         // 3️⃣ Cache file in Redis
-        await setCache(req.originalUrl, buffer, 300); // cache for 5 minutes
+        await setCache(path, buffer, 300); // cache for 5 minutes
         res.setHeader("X-Cache-Status", "MISS");
 
         // 4️⃣ Set response headers

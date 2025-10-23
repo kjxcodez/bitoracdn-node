@@ -55,7 +55,12 @@ export const setCache: SetCacheFn = async <T = unknown>(
 
     try {
         const serialized =
-            typeof value === "string" ? value : JSON.stringify(value);
+            value instanceof Buffer
+                ? value
+                : typeof value === "string"
+                    ? value
+                    : JSON.stringify(value);
+
 
         await redis.set(key, serialized, { EX: ttl });
         return true;

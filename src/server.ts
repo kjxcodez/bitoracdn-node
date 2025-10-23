@@ -9,6 +9,7 @@ import { loggerMiddleware } from "./app/middlewares/logger.middleware.js";
 import { responseTimeMiddleware } from "./app/middlewares/response-time.middleware.js";
 import { cacheValidationMiddleware } from "./app/middlewares/cache-validation.middleware.js";
 import { contentRouter } from "./app/routes/content.route.js";
+import { cacheRouter } from "./app/routes/cache.route.js";
 
 dotenv.config();
 
@@ -24,6 +25,7 @@ app.use(responseTimeMiddleware);
 await createRedisClient();
 
 app.use("/content", cacheValidationMiddleware, contentRouter);
+app.use("/cache", cacheRouter);
 
 app.use(loggerMiddleware);
 
